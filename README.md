@@ -51,6 +51,15 @@ business-directory/
 
 See `server/README.md` for full backend setup (MongoDB Atlas and local run).
 
+## Deploying to Netlify
+
+Netlify uses `netlify.toml` rather than `netlify.json`. The included configuration publishes `client/`, maps `/directory` and `/submit` to their HTML pages, and sends `/api/*` to the Netlify Function in `netlify/functions/api.js`.
+
+1. Import the repository in Netlify.
+2. Leave the base directory empty and use the included `netlify.toml` settings.
+3. Add `MONGODB_URI` and `CLIENT_ORIGIN` under Site configuration → Environment variables. Set `CLIENT_ORIGIN` to the deployed Netlify site URL.
+4. Deploy. The frontend uses same-origin `/api` requests automatically in production.
+
 ## Design
 
 - **Palette:** ink `#16211C`, paper `#F5F1E6`, forest green `#24402F`, gold `#D9A441`, brick `#B5482F`
