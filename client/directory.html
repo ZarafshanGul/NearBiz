@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Directory — NearBiz</title>
+<meta name="description" content="Search and filter NearBiz listings by name, category, or city.">
+
+<script>
+  (function () {
+    const saved = localStorage.getItem('ld-theme');
+    const theme = saved === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="ld-nav" id="siteNav">
+  <div class="container-custom ld-nav-inner">
+    <a href="/" class="ld-logo">
+      <img src="images/logo.png" alt="" class="ld-logo-png" aria-hidden="true">
+      <span>NearBiz</span>
+    </a>
+
+    <nav class="ld-nav-links">
+      <a href="/">Home</a>
+      <a href="/directory" class="active">Directory</a>
+      <a href="/submit">Add Your Business</a>
+    </nav>
+
+    <div class="ld-nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">
+        <span class="knob"></span>
+      </button>
+      <a href="/directory" class="btn-ld btn-ld-outline d-none d-md-inline-flex">View Directory</a>
+      <button class="ld-burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="ld-mobile-panel" id="mobilePanel">
+    <a href="/">Home</a>
+    <a href="/directory">Directory</a>
+    <a href="/submit">Add Your Business</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HEADER ================= -->
+  <section class="directory-header">
+    <div class="container-custom">
+      <h1 class="hero-title" style="font-size: clamp(2rem, 4vw, 2.9rem);">Explore local businesses</h1>
+      <p class="hero-sub" style="margin-top: .9rem;">Find businesses by name, category, or city.</p>
+
+      <div class="directory-toolbar">
+        <div class="search-box">
+          <span class="icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+          <input type="text" id="searchInput" placeholder="Search businesses by name or tagline…" aria-label="Search businesses">
+        </div>
+      </div>
+
+      <div class="filter-pills" id="filterPills">
+        <button class="pill active" data-category="">All</button>
+        <button class="pill" data-category="Food">Food</button>
+        <button class="pill" data-category="Fashion">Fashion</button>
+        <button class="pill" data-category="Tech">Tech</button>
+        <button class="pill" data-category="Health">Health</button>
+        <button class="pill" data-category="Education">Education</button>
+        <button class="pill" data-category="Services">Services</button>
+        <button class="pill" data-category="Retail">Retail</button>
+        <button class="pill" data-category="Other">Other</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESULTS ================= -->
+  <section class="directory-results">
+    <div class="container-custom">
+
+      <div class="api-banner" id="loadBanner">
+        <span class="spin"></span>
+        <span>Waking up the directory — the free-tier API can take up to a minute on first load.</span>
+      </div>
+
+      <div class="results-meta">
+        <span id="resultsCount">Loading businesses…</span>
+      </div>
+
+      <div class="biz-grid" id="bizGrid">
+        <!-- populated by directory.js -->
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="ld-footer">
+  <div class="container-custom">
+    <div class="row gy-4">
+      <div class="col-lg-4">
+        <div class="ld-footer-brand">NearBiz</div>
+        <p class="ld-footer-tag">A simple way to discover and list nearby businesses — built for shoppers and owners alike.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h4>Explore</h4>
+        <a href="/">Home</a>
+        <a href="/directory">Directory</a>
+        <a href="/submit">Add Your Business</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h4>Categories</h4>
+        <a href="/directory?category=Food">Food</a>
+        <a href="/directory?category=Tech">Tech</a>
+        <a href="/directory?category=Services">Services</a>
+      </div>
+      <div class="col-lg-4">
+        <h4>Have a business?</h4>
+        <p style="color:#A8A290; font-size:0.92rem; margin-bottom:1rem;">List it in the directory so people nearby can find you.</p>
+        <a href="/submit" class="btn-ld btn-ld-primary btn-ld-sm">Add Your Business</a>
+      </div>
+    </div>
+    <div class="ld-footer-bottom">
+      <span>© <span id="footerYear"></span> NearBiz. All rights reserved.</span>
+      <p class="mb-0 footer-credit">Powered by <a href="https://www.linkedin.com/company/shecodes.dev" target="_blank" rel="noopener" class="footer-credit-link">SheCodes.dev</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= BUSINESS DETAILS MODAL ================= -->
+<div class="modal fade" id="bizModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content ld-modal">
+      <div class="modal-header">
+        <div>
+          <span class="biz-badge ld-modal-badge" id="modalCategory"></span>
+          <h3 class="ld-modal-title" id="modalName"></h3>
+          <div class="ld-modal-owner" id="modalOwner"></div>
+        </div>
+        <button type="button" class="btn-close-ld" data-bs-dismiss="modal" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="ld-modal-tagline" id="modalTagline"></p>
+        <div class="ld-modal-meta">
+          <div class="meta-item">
+            <div class="meta-label">City</div>
+            <div class="meta-value" id="modalCity"></div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Email</div>
+            <div class="meta-value" id="modalEmail"></div>
+          </div>
+          <div class="meta-item" id="modalWebsiteWrap">
+            <div class="meta-label">Website</div>
+            <div class="meta-value" id="modalWebsite"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/main.js"></script>
+<script src="js/directory.js"></script>
+</body>
+</html>

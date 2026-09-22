@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Your Business — NearBiz</title>
+<meta name="description" content="List your business in NearBiz.">
+
+<script>
+  (function () {
+    const saved = localStorage.getItem('ld-theme');
+    const theme = saved === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="ld-nav" id="siteNav">
+  <div class="container-custom ld-nav-inner">
+    <a href="/" class="ld-logo">
+      <img src="images/logo.png" alt="" class="ld-logo-png" aria-hidden="true">
+      <span>NearBiz</span>
+    </a>
+
+    <nav class="ld-nav-links">
+      <a href="/">Home</a>
+      <a href="/directory">Directory</a>
+      <a href="/submit" class="active">Add Your Business</a>
+    </nav>
+
+    <div class="ld-nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">
+        <span class="knob"></span>
+      </button>
+      <a href="/directory" class="btn-ld btn-ld-outline d-none d-md-inline-flex">View Directory</a>
+      <button class="ld-burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="ld-mobile-panel" id="mobilePanel">
+    <a href="/">Home</a>
+    <a href="/directory">Directory</a>
+    <a href="/submit">Add Your Business</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HEADER ================= -->
+  <section class="submit-hero">
+    <div class="container-custom">
+      <h1 class="hero-title" style="font-size: clamp(2rem, 4vw, 2.9rem);">Put your business on the map.</h1>
+      <p class="hero-sub" style="margin-top: .9rem;">Add your business to NearBiz and help people discover what you offer.</p>
+    </div>
+  </section>
+
+  <!-- ================= FORM LAYOUT ================= -->
+  <section class="container-custom">
+    <div class="submit-layout">
+
+      <!-- Sidebar -->
+      <aside class="submit-aside">
+        <div class="aside-item">
+          <div class="aside-num">1</div>
+          <div>
+            <h4>Tell us the basics</h4>
+            <p>Business name, owner, and where you're based.</p>
+          </div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-num">2</div>
+          <div>
+            <h4>Pick a category</h4>
+            <p>Choose the one that fits best — you can only pick one.</p>
+          </div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-num">3</div>
+          <div>
+            <h4>Add contact details</h4>
+            <p>Your website and email so customers can reach you.</p>
+          </div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-num">4</div>
+          <div>
+            <h4>Go live</h4>
+            <p>Your listing appears in the directory right away.</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Form -->
+      <div class="ld-form">
+
+        <div class="api-banner" id="submitBanner">
+          <span class="spin"></span>
+          <span>Connecting to the directory — this can take a moment on first load.</span>
+        </div>
+
+        <form id="bizForm" class="form-body" novalidate>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="businessName">Business name <span class="req">*</span></label>
+              <input type="text" id="businessName" name="businessName" class="ld-input" placeholder="Maple & Co. Bakery">
+              <div class="field-error" id="err-businessName"></div>
+            </div>
+            <div class="form-group">
+              <label for="ownerName">Owner name <span class="req">*</span></label>
+              <input type="text" id="ownerName" name="ownerName" class="ld-input" placeholder="Jordan Lee">
+              <div class="field-error" id="err-ownerName"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="category">Category <span class="req">*</span></label>
+              <select id="category" name="category" class="ld-select">
+                <option value="" selected disabled>Choose a category</option>
+                <option value="Food">Food</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Tech">Tech</option>
+                <option value="Health">Health</option>
+                <option value="Education">Education</option>
+                <option value="Services">Services</option>
+                <option value="Retail">Retail</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="field-error" id="err-category"></div>
+            </div>
+            <div class="form-group">
+              <label for="city">City <span class="req">*</span></label>
+              <input type="text" id="city" name="city" class="ld-input" placeholder="Portland">
+              <div class="field-error" id="err-city"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="tagline">Tagline <span class="req">*</span></label>
+            <input type="text" id="tagline" name="tagline" class="ld-input" placeholder="A short line describing what you do">
+            <div class="field-error" id="err-tagline"></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="website" class="ld-input" placeholder="www.yourbusiness.com">
+              <div class="field-error" id="err-website"></div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email <span class="req">*</span></label>
+              <input type="email" id="email" name="email" class="ld-input" placeholder="you@business.com">
+              <div class="field-error" id="err-email"></div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-ld btn-ld-primary btn-ld-block" id="submitBtn">Add Your Business</button>
+          <p class="form-note">Fields marked <span class="req">*</span> are required.</p>
+        </form>
+
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">✓</div>
+          <h3>Your business has been added.</h3>
+          <p>Your listing is now available in the directory.</p>
+          <a href="/directory" class="btn-ld btn-ld-primary">View Directory</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="ld-footer">
+  <div class="container-custom">
+    <div class="row gy-4">
+      <div class="col-lg-4">
+        <div class="ld-footer-brand">NearBiz</div>
+        <p class="ld-footer-tag">A simple way to discover and list nearby businesses — built for shoppers and owners alike.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h4>Explore</h4>
+        <a href="/">Home</a>
+        <a href="/directory">Directory</a>
+        <a href="/submit">Add Your Business</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h4>Categories</h4>
+        <a href="/directory?category=Food">Food</a>
+        <a href="/directory?category=Tech">Tech</a>
+        <a href="/directory?category=Services">Services</a>
+      </div>
+      <div class="col-lg-4">
+        <h4>Have a business?</h4>
+        <p style="color:#A8A290; font-size:0.92rem; margin-bottom:1rem;">List it in the directory so people nearby can find you.</p>
+        <a href="/submit" class="btn-ld btn-ld-primary btn-ld-sm">Add Your Business</a>
+      </div>
+    </div>
+    <div class="ld-footer-bottom">
+      <span>© <span id="footerYear"></span> NearBiz. All rights reserved.</span>
+      <p class="mb-0 footer-credit">Powered by <a href="https://www.linkedin.com/company/shecodes.dev" target="_blank" rel="noopener" class="footer-credit-link">SheCodes.dev</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/main.js"></script>
+<script src="js/submit.js"></script>
+</body>
+</html>

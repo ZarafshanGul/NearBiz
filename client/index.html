@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NearBiz — Find businesses near you</title>
+<meta name="description" content="Discover local businesses by category and city, or add your own to NearBiz.">
+
+<!-- Prevent flash of wrong theme: read saved preference before first paint -->
+<script>
+  (function () {
+    const saved = localStorage.getItem('ld-theme');
+    const theme = saved === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+
+<!-- Bootstrap 5 CSS (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<!-- Site design system -->
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="ld-nav" id="siteNav">
+  <div class="container-custom ld-nav-inner">
+    <a href="/" class="ld-logo">
+      <img src="images/logo.png" alt="" class="ld-logo-png" aria-hidden="true">
+      <span>NearBiz</span>
+    </a>
+
+    <nav class="ld-nav-links">
+      <a href="/" class="active">Home</a>
+      <a href="/directory">Directory</a>
+      <a href="/submit">Add Your Business</a>
+    </nav>
+
+    <div class="ld-nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">
+        <span class="knob"></span>
+      </button>
+      <a href="/directory" class="btn-ld btn-ld-outline d-none d-md-inline-flex">View Directory</a>
+      <button class="ld-burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="ld-mobile-panel" id="mobilePanel">
+    <a href="/">Home</a>
+    <a href="/directory">Directory</a>
+    <a href="/submit">Add Your Business</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="container-custom hero-grid">
+      <div>
+        <div class="hero-eyebrow js-hero-el"><span class="dot"></span>Serving your neighborhood</div>
+        <h1 class="hero-title js-hero-el">
+          Find the businesses<br>that make <em>your city</em> better.
+        </h1>
+        <p class="hero-sub js-hero-el">
+          Search local shops, restaurants and services by category or city —
+          or list your own business so your neighbors can find you.
+        </p>
+        <div class="hero-actions js-hero-el">
+          <a href="/submit" class="btn-ld btn-ld-primary">Add Your Business</a>
+          <a href="/directory" class="btn-ld btn-ld-outline">Explore Directory</a>
+        </div>
+      </div>
+
+      <div class="hero-visual js-hero-el">
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="hero-visual-card">
+          <div class="name">Maple &amp; Co. Bakery</div>
+          <div class="meta">Food · Portland</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STATS ================= -->
+  <section class="stats-section">
+    <div class="container-custom">
+      <div class="stats-row">
+        <div class="stat-block reveal" data-delay="0">
+          <div class="stat-num" id="statBusinesses" data-target="0">0</div>
+          <div class="stat-label">Businesses listed</div>
+        </div>
+        <div class="stat-block reveal" data-delay="90">
+          <div class="stat-num" id="statCities" data-target="0">0</div>
+          <div class="stat-label">Cities covered</div>
+        </div>
+        <div class="stat-block reveal" data-delay="180">
+          <div class="stat-num" id="statCategories" data-target="0">0</div>
+          <div class="stat-label">Categories</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CATEGORIES ================= -->
+  <section class="cat-section">
+    <div class="container-custom">
+      <div class="section-head reveal">
+        <div>
+          <h2 class="section-title">Browse by category</h2>
+          <p class="section-desc">Eight categories cover everything in the directory — pick one to start narrowing your search.</p>
+        </div>
+        <a href="/directory" class="btn-ld btn-ld-outline">View all businesses</a>
+      </div>
+
+      <div class="cat-grid" id="categoryGrid">
+        <a href="/directory?category=Food" class="cat-card featured reveal reveal-scale" data-delay="0">
+          <div class="cat-icon" aria-hidden="true">01</div>
+          <div class="cat-name">Food</div>
+          <div class="cat-count">Restaurants, cafés &amp; bakeries</div>
+          <svg class="cat-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="/directory?category=Fashion" class="cat-card reveal reveal-scale" data-delay="60">
+          <div class="cat-icon" aria-hidden="true">02</div>
+          <div class="cat-name">Fashion</div>
+          <div class="cat-count">Clothing &amp; accessories</div>
+          <svg class="cat-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="/directory?category=Tech" class="cat-card reveal reveal-scale" data-delay="120">
+          <div class="cat-icon" aria-hidden="true">03</div>
+          <div class="cat-name">Tech</div>
+          <div class="cat-count">Repair &amp; digital services</div>
+          <svg class="cat-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="/directory?category=Health" class="cat-card reveal reveal-scale" data-delay="180">
+          <div class="cat-icon" aria-hidden="true">04</div>
+          <div class="cat-name">Health</div>
+          <div class="cat-count">Clinics &amp; wellness</div>
+          <svg class="cat-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="/directory?category=Education" class="cat-card reveal reveal-scale" data-delay="240">
+          <div class="cat-icon" aria-hidden="true">05</div>
+          <div class="cat-name">Education</div>
+          <div class="cat-count">Tutoring &amp; classes</div>
+          <svg class="cat-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="/directory?category=Services" class="cat-card reveal reveal-scale" data-delay="300">
+          <div class="cat-icon" aria-hidden="true">06</div>
+          <div class="cat-name">Services</div>
+          <div class="cat-count">Repairs &amp; professionals</div>
+          <svg class="cat-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="/directory?category=Retail" class="cat-card reveal reveal-scale" data-delay="360">
+          <div class="cat-icon" aria-hidden="true">07</div>
+          <div class="cat-name">Retail</div>
+          <div class="cat-count">Shops &amp; goods</div>
+          <svg class="cat-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURED BUSINESSES ================= -->
+  <section class="featured-section">
+    <div class="container-custom">
+      <div class="section-head reveal">
+        <div>
+          <h2 class="section-title">Recently added</h2>
+          <p class="section-desc">The newest businesses in the directory.</p>
+        </div>
+        <a href="/directory" class="btn-ld btn-ld-outline">View full directory</a>
+      </div>
+
+      <div class="api-banner" id="featuredBanner">
+        <span class="spin"></span>
+        <span>Waking up the directory — this can take up to a minute on first load.</span>
+      </div>
+
+      <div class="featured-grid" id="featuredGrid">
+        <!-- populated by home.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="container-custom" style="padding-bottom: 6rem;">
+    <div class="cta-band reveal">
+      <div>
+        <h2>Put your business on the map.</h2>
+        <p>Listing takes less than two minutes and helps people in your city find you.</p>
+      </div>
+      <a href="/submit" class="btn-ld btn-ld-primary">Add Your Business</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="ld-footer">
+  <div class="container-custom">
+    <div class="row gy-4">
+      <div class="col-lg-4">
+        <div class="ld-footer-brand">NearBiz</div>
+        <p class="ld-footer-tag">A simple way to discover and list nearby businesses — built for shoppers and owners alike.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h4>Explore</h4>
+        <a href="/">Home</a>
+        <a href="/directory">Directory</a>
+        <a href="/submit">Add Your Business</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h4>Categories</h4>
+        <a href="/directory?category=Food">Food</a>
+        <a href="/directory?category=Tech">Tech</a>
+        <a href="/directory?category=Services">Services</a>
+      </div>
+      <div class="col-lg-4">
+        <h4>Have a business?</h4>
+        <p style="color:#A8A290; font-size:0.92rem; margin-bottom:1rem;">List it in the directory so people nearby can find you.</p>
+        <a href="/submit" class="btn-ld btn-ld-primary btn-ld-sm">Add Your Business</a>
+      </div>
+    </div>
+    <div class="ld-footer-bottom">
+      <span>© <span id="footerYear"></span> NearBiz. All rights reserved.</span>
+      <p class="mb-0 footer-credit" >Powered by <a href="https://www.linkedin.com/company/shecodes.dev" target="_blank" rel="noopener" class="footer-credit-link "><style="color:var(--brick)">SheCodes.dev</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Site scripts -->
+<script src="js/config.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/main.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>
