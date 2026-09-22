@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    {
+      "source": "/css/:path*",
+      "destination": "/client/css/:path*"
+    },
+    {
+      "source": "/js/:path*",
+      "destination": "/client/js/:path*"
+    },
+    {
+      "source": "/images/:path*",
+      "destination": "/client/images/:path*"
+    },
+    {
+      "source": "/directory",
+      "destination": "/client/directory.html"
+    },
+    {
+      "source": "/submit",
+      "destination": "/client/submit.html"
+    },
+    {
+      "source": "/",
+      "destination": "/client/index.html"
+    }
+  ]
+}

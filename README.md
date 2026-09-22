@@ -1,12 +1,9 @@
 # Local Directory
 
 A small website that lists local businesses and lets an owner submit their own.
-Frontend: plain HTML, CSS, JavaScript, jQuery and Bootstrap (no build step). Backend: Node, Express and MongoDB. Both are included in this repo.
+Frontend: plain HTML, CSS, JavaScript, jQuery and Bootstrap (no build step). Backend: Node, Express and MongoDB. Both deploy together from this repository root.
 
 ## Live links
-
-- **Website (Vercel):** `PASTE YOUR VERCEL URL HERE`
-- **API (Vercel):** `PASTE YOUR API VERCEL URL HERE`
 
 > The API runs as a Vercel function backed by MongoDB Atlas.
 
@@ -24,21 +21,22 @@ Frontend: plain HTML, CSS, JavaScript, jQuery and Bootstrap (no build step). Bac
 
 ```
 business-directory/
-├── client/                 ← this frontend (deploys to Vercel)
+├── api/                    ← root Vercel function
+│   └── [...path].js
+├── client/                 ← static frontend
 │   ├── index.html           Home page
 │   ├── directory.html       Directory page
 │   ├── submit.html          Submit-a-business page
-│   ├── vercel.json          Vercel config (clean URLs)
 │   ├── css/
 │   │   └── style.css        Full design system (light + dark mode)
 │   └── js/
-│       ├── config.js        API_BASE_URL — set this to your API Vercel URL
+│       ├── config.js        API_BASE_URL — localhost locally, same-origin in production
 │       ├── theme.js          Dark-mode toggle + persistence
 │       ├── main.js           Navbar, mobile menu, scroll-reveal
 │       ├── home.js           Stat counters + featured businesses
 │       ├── directory.js      Search, filter, cards, modal
 │       └── submit.js         Form validation + submission
-├── server/                 ← the API (deploys to Vercel)
+├── server/                 ← Express API and MongoDB code
 │   ├── server.js
 │   ├── config/db.js
 │   ├── models/Business.js
@@ -51,7 +49,7 @@ business-directory/
 └── README.md
 ```
 
-See `server/README.md` for full backend setup (MongoDB Atlas, local run, Vercel deploy).
+See `server/README.md` for full backend setup (MongoDB Atlas and local run).
 
 ## Design
 
@@ -72,11 +70,7 @@ See `server/README.md` for full backend setup (MongoDB Atlas, local run, Vercel 
    ```
    The API runs at `http://localhost:3000` by default.
 
-2. **Frontend** — open `client/js/config.js` and point `API_BASE_URL` at your running API:
-   ```js
-   const API_BASE_URL = "http://localhost:3000"; // local development; set the Vercel API URL for production
-   ```
-   Serve the `client/` folder with a static server so the browser uses clean web URLs instead of showing the local `file:///C:/...` path:
+2. **Frontend** — serve the `client/` folder with a static server. `client/js/config.js` uses `http://localhost:3000` locally and the current site origin in production:
    ```bash
    npx serve client
    ```
@@ -86,25 +80,22 @@ See `server/README.md` for full backend setup (MongoDB Atlas, local run, Vercel 
 
 | Part | Where | Notes |
 |---|---|---|
-| Frontend | Vercel | Root Directory: `client`. Framework preset: **Other**. No build command. Redeploys on every push. |
-| API | Vercel | Root directory `server`, Vercel function in `api/[...path].js`, env vars `MONGODB_URI` and `CLIENT_ORIGIN`. |
+| Website and API | Vercel | Root Directory: repository root (`.`). Framework preset: **Other**. No build command. Set `MONGODB_URI` and `CLIENT_ORIGIN`. |
 | Database | MongoDB Atlas (free) | Create a cluster + database user, put the connection string in `server/.env`. |
 
-### Deploying the frontend to Vercel
+### Deploying to Vercel
 
 1. Push this repo to GitHub (see below).
 2. On [vercel.com](https://vercel.com), click **Add New → Project** and import the `business-directory` repo.
 3. In the project settings:
-   - **Root Directory:** `client`
+   - **Root Directory:** repository root (`.`)
    - **Framework Preset:** `Other`
    - **Build Command:** leave empty
    - **Output Directory:** leave as default (`.`)
-4. Deploy. Vercel gives you a URL like `https://business-directory.vercel.app`.
+4. Deploy. Vercel gives you a URL like `https://business-directory.vercel.app`. The root `vercel.json` routes pages and assets, while `api/[...path].js` handles `/api/*`.
 5. Every push to your main branch redeploys automatically.
 
-`client/vercel.json` is already set up with clean URLs, so no further config is needed.
-
-After deploying the API, update `client/js/config.js` with the live API Vercel URL and push again — Vercel redeploys automatically.
+Set `MONGODB_URI` and `CLIENT_ORIGIN` in the Vercel project environment variables. Use the deployed site URL for `CLIENT_ORIGIN`, then redeploy.
 
 ## API used by the frontend
 

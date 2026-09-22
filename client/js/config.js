@@ -1,8 +1,7 @@
 /* ============================================================
    API CONFIGURATION
-  Use localhost while developing. Before deploying the client to Vercel,
-  replace this with the public URL of the deployed Express API.
-  Keep it WITHOUT a trailing slash.
+  Use localhost while developing. In production, the API is served from
+  the same Vercel project at /api.
    ============================================================ */
 
 const isLocal = window.location.protocol === 'file:'
