@@ -113,14 +113,15 @@ $(function () {
       }
       $grid.html(businesses.map(renderFeaturedCard).join(''));
     })
-    .fail(function () {
+    .fail(function (xhr) {
       clearTimeout(bannerTimer);
       $banner.removeClass('is-shown');
+      const apiError = xhr.responseJSON && xhr.responseJSON.error;
       $grid.html(`
         <div class="state-block" style="grid-column:1/-1;">
           <div class="state-icon">⚠️</div>
           <div class="state-title">We could not load the directory</div>
-          <p class="state-desc">${isLocalDevelopment() ? 'Start the Express API on port 3000, then try again.' : 'The directory API is unavailable. Please try again in a moment.'}</p>
+          <p class="state-desc">${isLocalDevelopment() ? 'Start the Express API on port 3000, then try again.' : (apiError || 'The directory API is unavailable. Please try again in a moment.')}</p>
           <button type="button" class="btn-ld btn-ld-outline" id="featuredRetryBtn">Try again</button>
         </div>`);
       $('#featuredRetryBtn').on('click', function () {

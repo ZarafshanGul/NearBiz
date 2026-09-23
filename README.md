@@ -57,7 +57,7 @@ Netlify uses `netlify.toml` rather than `netlify.json`. The included configurati
 
 1. Import the repository in Netlify.
 2. Leave the base directory empty and use the included `netlify.toml` settings.
-3. Add `MONGODB_URI` and `CLIENT_ORIGIN` under Site configuration → Environment variables. Set `CLIENT_ORIGIN` to the deployed Netlify site URL.
+3. Add `MONGODB_URI` and `CLIENT_ORIGIN` under Site configuration → Environment variables. Set `CLIENT_ORIGIN` to the deployed Netlify site URL. Netlify does not read the local `server/.env` file.
 4. Deploy. The frontend uses same-origin `/api` requests automatically in production.
 
 ## Design
