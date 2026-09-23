@@ -45,7 +45,13 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
-  res.status(503).json({ error: 'The directory database is unavailable.' });
+
+  res.status(503).json({
+    error: 'The directory database is unavailable.',
+    details: process.env.NODE_ENV === 'production'
+      ? err.message
+      : err.message
+  });
 });
 
 module.exports = app;
